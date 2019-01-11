@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':app1'
 
 setBinding(new Binding([gradle: this]))                                 // new
 evaluate(new File(                                                      // new

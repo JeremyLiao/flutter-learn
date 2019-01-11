@@ -44,14 +44,57 @@ dependencies {
 ```
 
 #### 以aar文件的方式集成
-1. 在Flutter module的.android目录中打包aar
+##### 在Flutter module的.android目录中打包aar
 
 ```
 $ cd .android/
 $ ./gradlew flutter:assembleDebug
 ```
 
-2. 引用这个aar
+有些时候会遇到问题，这个时候可以尝试在flutter module的根目录下执行：
+
+```
+$ flutter clean
+$ flutter run
+```
+
+##### 引用这个aar
+
+host端app目录下新建目录libs。
+
+app下build.gradle中添加：
+
+```
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+```
+添加dependencies：
+
+```
+implementation name: 'flutter-debug', ext: 'aar'
+```
+从flutter module中拷贝生成的aar到libs目录下。
+
+rebuild，run
+
+十有八九会crash并且报错：
+
+```
+A/flutter: [FATAL:flutter/fml/icu_util.cc(95)] Check failed: context->IsValid(). Must be able to initialize the ICU context. Tried: /data/user/0/com.example.androidwithflutter3/app_flutter/icudtl.dat
+A/libc: Fatal signal 6 (SIGABRT), code -6 in tid 21199 (oidwithflutter3)
+```
+
+原因就是文件icudtl.dat没有引进来（不得不说，flutter坑真多），解决方法：
+1. 新建assets目录并把icudtl.dat拷进来，注意路径是：assets/flutter_shared/icudtl.dat
+2. 可以在flutter.jar中找到这个文件
+
+关于这个坑更多的描述，参见：[#18025](https://github.com/flutter/flutter/issues/18025)
+
+完成之后就可以run起来了。
+
 
 #### 以远程仓库aar的方式集成
 
