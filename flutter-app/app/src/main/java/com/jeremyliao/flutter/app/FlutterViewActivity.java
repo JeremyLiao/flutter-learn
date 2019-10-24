@@ -19,5 +19,6 @@ public class FlutterViewActivity extends AppCompatActivity {
                 "demo_app"
         );
         setContentView(flutterView);
+        getSupportActionBar().hide();
     }
 }

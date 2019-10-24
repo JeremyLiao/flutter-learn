@@ -24,4 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public void toFlutterFragment(View view) {
         startActivity(new Intent(this, FlutterFragmentActivity.class));
     }
+
+    public void toFlutterApp(View view) {
+        startActivity(new Intent(this, FlutterAppActivity.class));
+    }
 }

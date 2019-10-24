@@ -20,4 +20,10 @@
         android:onClick="toFlutterFragment"
         android:text="Go Flutter Fragment" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toFlutterApp"
+        android:text="Go Flutter App" />
+
 </LinearLayout>

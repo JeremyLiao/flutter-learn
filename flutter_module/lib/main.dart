@@ -1,190 +1,119 @@
 import 'dart:ui';
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_plugin/flutter_plugin.dart';
+import 'common/common.dart';
+import 'views/counter_page.dart';
+import 'views/version_page.dart';
+import 'views/app_page.dart';
+import 'views/tab_page.dart';
+import 'widgets/elements/form/button/flatbutton/index.dart';
+import 'widgets/scroll/scrollview/demo.dart';
+import 'widgets/scroll/list/demo.dart';
+import 'widgets/scroll/gridview/demo.dart';
 
+///程序入口
 void main() => runApp(_widgetForRoute(window.defaultRouteName));
-//void main() => runApp(MyApp());
 
+///路由，根据不同的名称返回相应的widget
 Widget _widgetForRoute(String route) {
   switch (route) {
-    case 'demo_app':
-      return MyApp();
+    case 'main':
+      return MainPage();
     case 'version':
       return VersionPage();
     default:
-      return ErrorPage('Unknown route: $route');
+      return MainPage();
+    // return ErrorPage('Unknown route: $route');
   }
 }
 
-class ErrorPage extends StatelessWidget {
-  final String errorMsg;
+const List<String> PAGES = [
+  "version_page",
+  "counter_page",
+  "app_page",
+  "tab_page",
+  "flat_button_demo",
+  "scroll_view_demo",
+  "list_view_demo",
+  "grid_view_demo",
+];
 
-  ErrorPage(this.errorMsg);
+final Map<String, WidgetBuilder> routerMap = {
+  "version_page": (context) => VersionPage(),
+  "counter_page": (context) => CounterPage(),
+  "app_page": (context) => AppPage(),
+  "tab_page": (context) => TabPage(),
+  "flat_button_demo": (context) =>
+      DefaultPage("flat button demo", FlatButtonDemo()),
+  "scroll_view_demo": (context) =>
+      DefaultPage("scroll view demo", SingleChildScrollViewDemo()),
+  "list_view_demo": (context) => DefaultPage("list view demo", ListViewDemo()),
+  "grid_view_demo": (context) => DefaultPage("grid view demo", GridViewDemo()),
+};
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Error Page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        body: Center(
-          child: Text(errorMsg, textDirection: TextDirection.ltr),
-        ),
-      ),
-    );
-  }
-}
-
-class VersionPage extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<VersionPage> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    try {
-      platformVersion = await FlutterPlugin.sdkInt;
-    } on Exception {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
-    );
-  }
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in a Flutter IDE). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: routerMap,
+      home: MainContentPage(title: 'Main Page', pages: PAGES),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class MainContentPage extends StatefulWidget {
+  MainContentPage({Key key, this.title, this.pages}) : super(key: key);
 
   final String title;
+  final List<String> pages;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainContentPageState createState() => _MainContentPageState(pages);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MainContentPageState extends State<MainContentPage> {
+  List<String> _pages;
 
-  void _incrementCounter() {
+  _MainContentPageState(this._pages);
+
+  set pages(List<String> value) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _pages = value;
     });
+  }
+
+  int _getLength() {
+    if (_pages == null) {
+      return 0;
+    } else {
+      return _pages.length;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+        child: ListView.builder(
+          itemCount: _getLength(),
+          itemBuilder: (context, index) {
+            String page = _pages[index];
+            return FlatButton(
+              child: Text(page),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.pushNamed(context, page);
+              },
+            );
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
