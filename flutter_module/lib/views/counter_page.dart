@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../plugins/toast.dart';
 
 class CounterPage extends StatelessWidget {
   @override
@@ -26,6 +27,7 @@ class _CounterViewPageState extends State<CounterViewPage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    Toast.showToast("Counter Add!");
     setState(() {
       _counter++;
     });

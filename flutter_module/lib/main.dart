@@ -5,6 +5,7 @@ import 'views/counter_page.dart';
 import 'views/version_page.dart';
 import 'views/app_page.dart';
 import 'views/tab_page.dart';
+import 'views/layout.dart';
 import 'widgets/elements/form/button/flatbutton/index.dart';
 import 'widgets/scroll/scrollview/demo.dart';
 import 'widgets/scroll/list/demo.dart';
@@ -35,6 +36,7 @@ const List<String> PAGES = [
   "scroll_view_demo",
   "list_view_demo",
   "grid_view_demo",
+  "layout_demo",
 ];
 
 final Map<String, WidgetBuilder> routerMap = {
@@ -48,6 +50,7 @@ final Map<String, WidgetBuilder> routerMap = {
       DefaultPage("scroll view demo", SingleChildScrollViewDemo()),
   "list_view_demo": (context) => DefaultPage("list view demo", ListViewDemo()),
   "grid_view_demo": (context) => DefaultPage("grid view demo", GridViewDemo()),
+  "layout_demo": (context) => DefaultPage("layout demo", LayoutDemo()),
 };
 
 class MainPage extends StatelessWidget {
