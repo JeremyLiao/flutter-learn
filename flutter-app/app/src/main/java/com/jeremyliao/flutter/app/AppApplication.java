@@ -2,8 +2,6 @@ package com.jeremyliao.flutter.app;
 
 import android.app.Application;
 
-import com.jeremyliao.flutter.plugins.CustomPluginRegistrant;
-
 import io.flutter.view.FlutterMain;
 
 /**

@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_module/plugins/toast.dart';
 import 'common/common.dart';
 import 'views/counter_page.dart';
 import 'views/version_page.dart';
@@ -26,6 +28,9 @@ Widget _widgetForRoute(String route) {
     // return ErrorPage('Unknown route: $route');
   }
 }
+
+const EventChannel EVENT_CHANNEL =
+    const EventChannel('com.jeremyliao.flutter.plugins/event');
 
 const List<String> PAGES = [
   "version_page",
@@ -81,6 +86,16 @@ class _MainContentPageState extends State<MainContentPage> {
   List<String> _pages;
 
   _MainContentPageState(this._pages);
+
+  @override
+  void initState() {
+    super.initState();
+    EVENT_CHANNEL.receiveBroadcastStream().listen(_onEvent);
+  }
+
+  void _onEvent(Object event) {
+    Toast.showToast(event.toString());
+  }
 
   set pages(List<String> value) {
     setState(() {
