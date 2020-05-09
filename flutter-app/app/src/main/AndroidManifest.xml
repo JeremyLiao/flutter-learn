@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jeremyliao.flutter.app">
+    package="com.jeremyliao.flutter.app"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        tools:replace="android:appComponentFactory"
         android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
