@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class DefaultPage extends StatelessWidget {
+class CommonTitlePage extends StatelessWidget {
   final String title;
   final Widget home;
 
-  DefaultPage(this.title, this.home);
+  CommonTitlePage(this.title, this.home);
 
   @override
   Widget build(BuildContext context) {

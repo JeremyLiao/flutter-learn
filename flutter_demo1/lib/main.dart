@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo1/mvvm/view/gank_view.dart';
 
 //import 'package:flutter_module/plugins/toast.dart';
 import 'common/common.dart';
@@ -42,6 +43,8 @@ const List<String> PAGES = [
   "grid_view_demo",
   "layout_demo",
   "router_demo",
+  "gank_demo",
+  "mvvm_demo",
 ];
 
 final Map<String, WidgetBuilder> routerMap = {
@@ -50,13 +53,17 @@ final Map<String, WidgetBuilder> routerMap = {
   "app_page": (context) => AppPage(),
   "tab_page": (context) => TabPage(),
   "flat_button_demo": (context) =>
-      DefaultPage("flat button demo", FlatButtonDemo()),
+      CommonTitlePage("flat button demo", FlatButtonDemo()),
   "scroll_view_demo": (context) =>
-      DefaultPage("scroll view demo", SingleChildScrollViewDemo()),
-  "list_view_demo": (context) => DefaultPage("list view demo", ListViewDemo()),
-  "grid_view_demo": (context) => DefaultPage("grid view demo", GridViewDemo()),
-  "layout_demo": (context) => DefaultPage("layout demo", LayoutDemo()),
-  "router_demo": (context) => DefaultPage("router demo", RouterDemo()),
+      CommonTitlePage("scroll view demo", SingleChildScrollViewDemo()),
+  "list_view_demo": (context) =>
+      CommonTitlePage("list view demo", ListViewDemo()),
+  "grid_view_demo": (context) =>
+      CommonTitlePage("grid view demo", GridViewDemo()),
+  "layout_demo": (context) => CommonTitlePage("layout demo", LayoutDemo()),
+  "router_demo": (context) => CommonTitlePage("router demo", RouterDemo()),
+  "gank_demo": (context) => CommonTitlePage("router demo", GankMainPage()),
+  "mvvm_demo": (context) => CommonTitlePage("router demo", GankMvvmMainPage()),
 };
 
 class MainPage extends StatelessWidget {
